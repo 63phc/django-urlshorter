@@ -1,0 +1,3 @@
+
+
+./backend/manage.py migrate
