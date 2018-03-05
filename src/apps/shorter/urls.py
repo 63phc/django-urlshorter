@@ -1,10 +1,6 @@
-
-from django.conf.urls import url, include
-from django.contrib import admin
-
-from apps.shorter import views
+from django.conf.urls import url
+from apps.shorter.views import IndexView
 
 urlpatterns = [
-
-    url('^', views.IndexView.as_view(), name='index'),
+    url(r'^$', IndexView.as_view(), name='index'),
 ]
