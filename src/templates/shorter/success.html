@@ -1,1 +1,12 @@
-success
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="cover-heading">Created.</h1>
+<p class="lead">You are ready to go!</p>
+<p>{{ object.url }}</p>
+<button type="button" class="btn btn-lg btn-secondary">
+  Count<span class="badge badge-light">{{ object.counturl.count }}</span>
+  <span class="sr-only">Number of counts.</span>
+</button>
+<p><a href="{{ object.get_short_url }}">{{ object.get_short_url }}</a></p>
+<a href='/' class='btn btn-lg btn-secondary'>+New</a>
+{% endblock %}

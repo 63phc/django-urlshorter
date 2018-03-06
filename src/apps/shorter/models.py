@@ -12,18 +12,6 @@ class ShortenUrlManager(models.Manager):
         qs = super(ShortenUrlManager, self).all(*args, **kwargs)
         return qs
 
-    def refresh_shortcode(self, items=None):
-        new_url_short = 0
-        qs = UrlShorter.objects.filter(id__gte=1)
-        if items is not None and isinstance(items, int):
-            qs = qs.order_by('-id')[:items]
-        for q in qs:
-            q.url_short = create_urlshort(q)
-            print(q.url_short)
-            q.save()
-            new_url_short += 1
-        return "New short url made: {i}".format(i=new_url_short)
-
 
 class UrlShorter(models.Model):
     url = models.URLField(max_length=512)
@@ -52,5 +40,4 @@ class UrlShorter(models.Model):
     class Meta:
         verbose_name = "Short Link"
         verbose_name_plural = "Short Links"
-        ordering = ('created_at',)
-        get_latest_by = 'created_at'
+        ordering = ('-created_at',)

@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response, render, get_object_or_404
+from django.shortcuts import render_to_response, render, get_object_or_404, redirect
 from django.template.context_processors import csrf
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -25,18 +25,12 @@ class IndexView(View):
 
     def post(self, request, *args, **kwargs):
         form = UrlShorterForm(request.POST)
-        template = 'shorter/index.html'
         context = {'form': form, }
         if form.is_valid():
             url = form.cleaned_data.get("url")
             user = request.user
             obj, created = UrlShorter.objects.get_or_create(url=url, user=user)
-            context = {'object': obj}
-            if created:
-                template = 'shorter/success.html'
-            else:
-                template = 'shorter/already-exists.html'
-        return render(request, template, context)
+        return redirect('index')
 
 
 class UrlShorterRedirect(View):
