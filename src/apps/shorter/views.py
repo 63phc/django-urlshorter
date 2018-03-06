@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response, render, get_object_or_404, redirect
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template.context_processors import csrf
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -25,7 +22,6 @@ class IndexView(View):
 
     def post(self, request, *args, **kwargs):
         form = UrlShorterForm(request.POST)
-        context = {'form': form, }
         if form.is_valid():
             url = form.cleaned_data.get("url")
             user = request.user
@@ -34,7 +30,7 @@ class IndexView(View):
 
 
 class UrlShorterRedirect(View):
-    def get(self, request, url_short=None, *args, **kwargs):
+    def get(self, request, url_short=None):
         print(url_short)
         short_link = get_object_or_404(UrlShorter, url_short=url_short)
         short_link.count = F('count') + 1
