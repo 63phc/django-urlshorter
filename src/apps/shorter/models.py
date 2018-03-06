@@ -9,8 +9,7 @@ from .utils import create_urlshort
 
 class ShortenUrlManager(models.Manager):
     def all(self, *args, **kwargs):
-        qs_original = super(ShortenUrlManager, self).all(*args, **kwargs)
-        qs = qs_original.filter(active=True)
+        qs = super(ShortenUrlManager, self).all(*args, **kwargs)
         return qs
 
     def refresh_shortcode(self, items=None):
@@ -47,7 +46,7 @@ class UrlShorter(models.Model):
         return str(self.url)
 
     def get_short_url(self):
-        url_path = reverse("url_short", kwargs={'url_short': self.url_short, }, host='www', scheme='https')
+        url_path = reverse("url_short", kwargs={'url_short': self.url_short, })
         return url_path
 
     class Meta:
@@ -55,4 +54,3 @@ class UrlShorter(models.Model):
         verbose_name_plural = "Short Links"
         ordering = ('created_at',)
         get_latest_by = 'created_at'
-
