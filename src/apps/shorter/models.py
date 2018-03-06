@@ -5,20 +5,12 @@ from django.urls import reverse
 from .utils import create_urlshort
 
 
-class ShortenUrlManager(models.Manager):
-    def all(self, *args, **kwargs):
-        qs = super(ShortenUrlManager, self).all(*args, **kwargs)
-        return qs
-
-
 class UrlShorter(models.Model):
     url = models.URLField(max_length=512)
     url_short = models.URLField(max_length=6, unique=True)
     user = models.ForeignKey(User, related_name='urls', on_delete=CASCADE)
     count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    objects = ShortenUrlManager()
 
     def save(self, *args, **kwargs):
         if self.url_short is None or self.url_short == "":

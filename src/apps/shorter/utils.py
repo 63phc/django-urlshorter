@@ -1,6 +1,5 @@
 import random
 import string
-from django.conf import settings
 
 
 def url_generator(size=6, chars=string.ascii_lowercase + string.digits):
