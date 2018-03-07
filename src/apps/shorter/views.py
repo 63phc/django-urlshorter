@@ -25,7 +25,7 @@ class IndexView(View):
         if form.is_valid():
             url = form.cleaned_data.get("url")
             user = request.user
-            obj, created = UrlShorter.objects.get_or_create(url=url, user=user)
+            UrlShorter.objects.get_or_create(url=url, user=user)
         return redirect('index')
 
 
