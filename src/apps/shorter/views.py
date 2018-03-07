@@ -30,9 +30,11 @@ class IndexView(View):
 
 
 class UrlShorterRedirect(View):
+
     def get(self, request, url_short=None):
-        print(url_short)
         short_link = get_object_or_404(UrlShorter, url_short=url_short)
         short_link.count = F('count') + 1
         short_link.save()
         return HttpResponseRedirect(short_link.url)
+
+

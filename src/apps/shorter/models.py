@@ -20,9 +20,7 @@ class UrlShorter(models.Model):
     def __str__(self):
         return str(self.url)
 
-    def __unicode__(self):
-        return str(self.url)
-
+    @property
     def get_short_url(self):
         url_path = reverse("url_short", kwargs={'url_short': self.url_short, })
         return url_path
