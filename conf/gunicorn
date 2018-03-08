@@ -1,0 +1,23 @@
+#!/bin/bash
+NAME="urlshorter"
+DIR=/home/code/urlshorter/src/
+USER=code
+GROUP=code
+WORKERS=3
+BIND=unix:/home/code/urlshorter/run/gunicorn.sock
+DJANGO_SETTINGS_MODULE=core.settings
+DJANGO_WSGI_MODULE=core.wsgi
+LOG_LEVEL=error
+ENV=/home/code/.local/share/virtualenvs/code-ZXOitLnE/bin/activate
+cd $DIR
+source $ENV
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DIR:$PYTHONPATH
+exec $(which gunicorn) ${DJANGO_WSGI_MODULE}:application \
+--name $NAME \
+--workers $WORKERS \
+--user=$USER \
+--group=$GROUP \
+--bind=$BIND \
+--log-level=$LOG_LEVEL \
+--log-file=-
