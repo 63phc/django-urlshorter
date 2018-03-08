@@ -15,31 +15,44 @@
     </header>
     <div class="container">
         <div class="form-shorter">
-        <form method="post">
-            {% csrf_token %}
-            {{ urlshorter_form }}
-            <input type="submit" class="btn btn-success" value="Shorten URL">
+             <form action="" method="post" novalidate>
+                {% csrf_token %}
+                {{ urlshorter_form }}
+                <input type="submit" class="btn btn-success" value="Shorten URL">
             </form>
         </div>
+        {% if messages %}
+            <div class="row">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
         <div class="row">
             <table class="table table-hover">
               <thead>
                 <tr>
                   <th scope="col">Link</th>
-                  <th scope="col">Data create</th>
+                  <th scope="col" class="created">Data create</th>
                   <th scope="col">Short link</th>
                   <th scope="col">Count</th>
                 </tr>
               </thead>
               <tbody>
-                {% for item in urls %}
-                <tr>
-                  <td>{{item.url}}</td>
-                  <td>{{item.created_at}}</td>
-                  <td><a href="{{ item.get_short_url }}">localhost{{ item.get_short_url }}</a></td>
-                  <td>{{item.count}}</td>
-                </tr>
-                {% endfor %}
+                {% if not urls %}
+                    <tr><td colspan="4">Please, paste your url into form above.</td></tr>
+                {% else %}
+                    {% for item in urls %}
+                    <tr>
+                      <td>{{item.url}}</td>
+                      <td>{{item.created_at}}</td>
+                      <td><a href="{{ item.url }}">{{request.scheme}}://{{request.get_host}}/{{ item.url_short }}</a></td>
+                      <td>{{item.count}}</td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
               </tbody>
             </table>
         </div>
